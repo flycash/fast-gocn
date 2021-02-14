@@ -1,4 +1,4 @@
-APP_NAME:=gocn-wechat-be
+APP_NAME:=user-srv
 APP_PATH:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 SCRIPT_PATH:=$(APP_PATH)/scripts
 COMPILE_OUT:=$(APP_PATH)/bin/$(APP_NAME)
@@ -10,10 +10,24 @@ install:export EGO_DEBUG=true
 install:
 	@cd $(APP_PATH) && go run main.go --config=config/local.toml --job=install
 update:
-	@go get github.com/gotomicro/ego@main
+	@go get github.com/gotomicro/ego@master
+	@go get git.yitum.com/mygomod/yitea-contrib@master
 	@go get git.yitum.com/mygomod/proto@master
 
 debug: clear install mock
+
+macbuild:
+	@echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>making build app<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+	@chmod +x $(SCRIPT_PATH)/build/*.sh
+	@cd $(APP_PATH) && $(SCRIPT_PATH)/build/macgobuild.sh $(APP_NAME) $(COMPILE_OUT)
+
+# 执行ssh，正向隧道
+dev.ssh.mysql:
+	@ssh root@dev.your.machine -L 3306:127.0.0.1:3306 -N
+
+
+prod.ssh.mysql:
+	@ssh root@prod.your.machine -L 3306:127.0.0.1:3306 -N
 
 build:
 	@echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>making build app<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
@@ -43,7 +57,9 @@ prod.init_nginx:
 
 prod.deploy: build deployprod
 
-
-
+prod.install:export EGO_DEBUG=true
+prod.install:
+	@cd $(APP_PATH) && ./bin/$(APP_NAME) --config=config/prod.toml --job=install
+	@cd $(APP_PATH) && ./bin/$(APP_NAME) --config=config/prod.toml --job=init_policy
 
 
