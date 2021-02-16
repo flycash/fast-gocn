@@ -11,7 +11,7 @@ require (
 	github.com/gotomicro/ego-component/eetcd v0.1.2
 	github.com/gotomicro/ego-component/egorm v0.1.2
 	github.com/gotomicro/ego-component/eredis v0.1.2
-	github.com/gotomicro/fast-gocn/proto v0.0.0-20210214134845-2ff23bab1a5c
+	github.com/gotomicro/fast-gocn/proto v0.0.0-20210216124410-681300dc7fb0
 	github.com/jinzhu/gorm v1.9.12
 	github.com/spf13/cast v1.3.1
 	go.uber.org/zap v1.15.0
