@@ -16,6 +16,7 @@ func main() {
 		Registry(invoker.EtcdRegistry).
 		Job(
 			job.InstallComponent(),
+			job.MockTopic(),
 		).
 		Serve(
 			egovernor.Load("server.governor").Build(),

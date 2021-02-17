@@ -4,7 +4,7 @@
 ### proto定义规范:
 ```
   syntax = "proto3";(使用proto3)
-  package com.yitum.git.user;(包名规范)
+  package com.github.gotomicro.fast-gocn.user;(包名规范)
   option go_package = "gocn/gen/userpb";// 方便项目间的引用go_package 使用远端绝对路径地址 
 ```
 
@@ -17,7 +17,7 @@
 ### golang 如何在本地开发调试
 
 ```
-1.git clone git@git.yitum.com:mygomod/proto.git
+1.git clone https://github.com/gotomicro/fast-gocn/proto
 
 2. 本地生成go文件(在项目下执行脚本生成文件,提交时只提交变更的proto文件,go文件不要提交)
 
@@ -28,7 +28,7 @@ cd 下载到的目录
 
 3.更新项目下gomod文件(开发时使用replace在本地进行替换开发)
 
-  replace git.yitum.com/mygomod/proto => ../../../proto
+  replace https://github.com/gotomicro/fast-gocn/proto => ../../../proto
 
 ```
 

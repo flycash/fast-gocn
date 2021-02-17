@@ -12,11 +12,6 @@ import (
 
 func TopicInfo(c *core.Context) {
 
-	var uid int64 = 0
-	if c.IsLogin() {
-		uid = c.WechatUid()
-	}
-
 	id, err := strconv.Atoi(c.Query("id"))
 	if id <= 0 || err != nil {
 		invoker.Logger.Errorf("could not parse parameter: %+v", err)
@@ -26,7 +21,6 @@ func TopicInfo(c *core.Context) {
 
 	goodsInfo, err := invoker.ResourceGrpc.TopicInfo(c, &resourcesrv.TopicInfoReq{
 		TopicId: int32(id),
-		Uid:     uid,
 	})
 	if err != nil {
 		c.JSONE(1, "系统异常", err)
@@ -40,19 +34,12 @@ func TopicInfo(c *core.Context) {
 
 func TopicList(c *core.Context) {
 
-	var uid int64 = 0
-	if c.IsLogin() {
-		uid = c.WechatUid()
-	}
-
 	req := &resourcesrv.ColumnListPageReq{}
 	err := c.Bind(req)
 	if err != nil {
 		c.JSONE(1, "参数错误", err)
 		return
 	}
-
-	req.Uid = uid
 
 	reply, err := invoker.ResourceGrpc.TopicList(c, req)
 
@@ -121,8 +108,6 @@ func newTopic(t *resourcesrv.Topic) *Topic {
 		CreatedAtLabel: formatDate(t.CreatedAt),
 		Title:          t.Title,
 		Body:           string(t.Body),
-		Liked:          t.Liked,
-		Collected:      t.Collected,
 		CollectedCount: t.CollectedCount,
 	}
 }

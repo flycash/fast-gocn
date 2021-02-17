@@ -11,6 +11,7 @@ import (
 func GetRouter() *egin.Component {
 	r := invoker.Gin
 
+	r.GET("/api/health", core.Handle(api.Health))
 	r.POST("/api/auth/login", core.Handle(api.Login))
 
 	r.Use(core.WechatAccessMaybeLogin())

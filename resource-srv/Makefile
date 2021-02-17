@@ -9,10 +9,7 @@ go:
 install:export EGO_DEBUG=true
 install:
 	@cd $(APP_PATH) && go run main.go --config=config/local.toml --job=install
-update:
-	@go get git.yitum.com/mygomod/yitea@master
-	@go get git.yitum.com/mygomod/yitea-contrib@master
-	@go get git.yitum.com/mygomod/proto@master
+
 
 local.job.syncvideo:
 	@cd $(APP_PATH) && go run main.go --config=config/syncprod.toml --job=syncvideo

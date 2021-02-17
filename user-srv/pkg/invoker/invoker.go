@@ -3,12 +3,12 @@ package invoker
 import (
 	"fmt"
 
-	"git.yitum.com/mygomod/yitea-contrib/token"
-	"git.yitum.com/mygomod/yitea-contrib/wechat"
 	"github.com/gotomicro/ego-component/eetcd"
 	"github.com/gotomicro/ego-component/eetcd/registry"
 	"github.com/gotomicro/ego-component/egorm"
 	"github.com/gotomicro/ego-component/eredis"
+	"github.com/gotomicro/ego-component/etoken"
+	"github.com/gotomicro/ego-component/ewechat"
 	"github.com/gotomicro/ego/core/elog"
 	"github.com/gotomicro/fast-gocn/proto/gocn/gen/errcodepb"
 	"go.uber.org/zap"
@@ -17,11 +17,11 @@ import (
 )
 
 var (
-	Wechat       *wechat.Config
+	Wechat       *ewechat.Component
 	Logger       *elog.Component
 	Db           *egorm.Component
 	RedisStub    *eredis.Component
-	Token        *token.Config
+	Token        *etoken.Component
 	EtcdRegistry *registry.Component
 	EtcdClient   *eetcd.Component
 )
@@ -31,8 +31,8 @@ func Init() error {
 	Db = egorm.Load("mysql.user").Build()
 	RedisStub = eredis.Load("redis.user").Build(eredis.WithStub())
 	EtcdClient = eetcd.Load("etcd").Build()
-	Wechat = wechat.Load("wechat").Build(wechat.WithRedis(RedisStub))
-	Token = token.Load("token").Build(token.WithRedis(RedisStub))
+	Wechat = ewechat.Load("wechat").Build(ewechat.WithRedis(RedisStub))
+	Token = etoken.Load("token").Build(etoken.WithRedis(RedisStub))
 	EtcdRegistry = registry.Load("registry").Build(registry.WithClientEtcd(EtcdClient))
 	return nil
 }

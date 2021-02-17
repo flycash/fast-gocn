@@ -11,8 +11,6 @@ install:
 	@cd $(APP_PATH) && go run main.go --config=config/local.toml --job=install
 update:
 	@go get github.com/gotomicro/ego@master
-	@go get git.yitum.com/mygomod/yitea-contrib@master
-	@go get git.yitum.com/mygomod/proto@master
 
 debug: clear install mock
 
